@@ -1,174 +1,116 @@
-let covidInfo = (function () {
-    let usaInfo, indiaInfo, stateInfo,countryNames;
-    // to get fetch in total county data 
+var URLS =[
+  `https://api.covid19api.com/summary`,
+  `https://api.covid19api.com/live/country/india/status/confirmed`
+];
+debugger;
+getChartData();
+var requestOptions = {
+  method: "GET",
+  redirect: "follow",
+};
 
-    fetch("https://covid19.mathdro.id/api/countries").then((res)=>{
-        return res.json();
-    }).then((data)=>{
-        // countryNames= data.countries.map((d)=>d.name);
-        countryNames= data.countries;
-        setNames(countryNames);
-    })
-   
-    function setNames(countryNames)
-    {
-        let country_names=document.querySelector('.country-names');
-        for(let i =0;i<countryNames.length;i++)
-        {
-            country_names.innerHTML+=`<option value='${countryNames[i].name}'>${countryNames[i].name}</option>`;
-        }
-        // let x = document.querySelector('.country-names').selectedIndex;
-        // alert(document.getElementsByTagName("option")[x].value);
-        
-    }
 
-   //get usa and india info
-    fetch('https://covid19.mathdro.id/api/countries/usa')
-    .then((response) => {
-        return response.json();
-    })
-    .then((data) => {
-        usaInfo = data;
-        //set usa values and update view
-        setValues('usa');
-    });
+  async function getChartData() {
+    const first = fetch(`${URLS[0]}`, requestOptions).catch((error) => console.log("error", error));
+   const two = fetch(`${URLS[1]}`, requestOptions).catch((error) => console.log("error", error));
+   const firstvalue = await first.json();
+   debugger;
+   const secondvalue = await two.json();
+ }
 
-    fetch('https://covid19.mathdro.id/api/countries/ind')
-    .then((response) => {
-        return response.json();
-    })
-    .then((data) => {
-        indiaInfo = data;
-        //set india values and update view
-        setValues('india');
-    });
+fetch("https://api.covid19api.com/summary", requestOptions)
+  .then((response) => response.json())
+  .then((result) => {
+    console.table(result);
+    setNames(result);
+  })
+  .catch((error) => console.log("error", error));
 
-    function setValues(country){
-    let infoObj;  
-    if(country === "usa"){
-        infoObj = usaInfo;
-      }
-    
-    if(country === "india"){
-        infoObj = indiaInfo;
-      }
-      const countryId = country+'-info';
-      const infoElm = document.getElementById(countryId);
-      
-      let info_confirmed_elm = infoElm.querySelector('.confirmed');
-      
-      let info_confirmed_value = infoObj.confirmed.value;
-      info_confirmed_elm.querySelector('.value').innerText = info_confirmed_value;
-      
-      let info_recovered_elm = infoElm.querySelector('.recovered');
-      let info_recovered_value = infoObj.recovered.value;
-      info_recovered_elm.querySelector('.value').innerText = info_recovered_value;
-      
-      let info_deaths_elm = infoElm.querySelector('.deaths');
-      let info_deaths_value = infoObj.deaths.value;
-      info_deaths_elm.querySelector('.value').innerText = info_deaths_value;
-      
-      let info_active_elm = infoElm.querySelector('.active');
-      info_active_elm.querySelector('.value').innerText = info_confirmed_value - (info_deaths_value + info_recovered_value);
-    
-    let info_updated_elm = infoElm.querySelector('.updated-date');
-      info_updated_elm.querySelector('.detail').innerText = new Date(infoObj.lastUpdate).toLocaleDateString() + ", "+ new Date(infoObj.lastUpdate).toLocaleTimeString();
-      
+// for line chart
 
-    }
-    
-    function fetchStateInfo(selectedState){
-        fetch('https://covid19.mathdro.id/api/countries/usa/confirmed')
-        .then((response) => {
-            return response.json();
-        })
-        .then((data) => {
-            stateInfo = data;
-            filterStateInfo(selectedState);
-        });
-    
-    }
-
-    function filterStateInfo(selectedState){
-        console.log(selectedState);
-        stateInfo.forEach(function (item) {
-        if(selectedState === item.provinceState){
-            showStateInfo(item);
-        }
-        });
-    }
-    
-  function showStateInfo(stateInfo){
-    let infoElm = document.getElementById('info');
-        if (infoElm.classList.contains("hide")) {
-            infoElm.classList.remove("hide");
-            infoElm.classList.add("show");
-        }
-      infoElm.querySelector('.state-name').innerText = stateInfo.provinceState;
-      
-      let info_confirmed_elm = infoElm.querySelector('.confirmed');
-      
-      let info_confirmed_value = stateInfo.confirmed;
-      info_confirmed_elm.querySelector('.value').innerText = info_confirmed_value;
-      
-      let info_recovered_elm = infoElm.querySelector('.recovered');
-      let info_recovered_value = stateInfo.recovered;
-      info_recovered_elm.querySelector('.value').innerText = info_recovered_value;
-      
-      let info_deaths_elm = infoElm.querySelector('.deaths');
-      let info_deaths_value = stateInfo.deaths;
-      info_deaths_elm.querySelector('.value').innerText = info_deaths_value;
-      
-      let info_active_elm = infoElm.querySelector('.active');
-      info_active_elm.querySelector('.value').innerText = stateInfo.active
-    
-    let info_updated_elm = infoElm.querySelector('.updated-date');
-      info_updated_elm.querySelector('.detail').innerText = new Date(stateInfo.lastUpdate).toLocaleDateString() + ", "+ new Date(stateInfo.lastUpdate).toLocaleTimeString();
-    }    
-    
-    return {
-      fetchStateInfo: fetchStateInfo
-    };
-})();
-
-function showSelectedInfo(){
-  let selectedState = document.getElementById("selectedState").value;
-  covidInfo.fetchStateInfo(selectedState);
+function renderTable(tableRowObject,i) {
+  let tableRowData= `<tr>
+ <td>  ${tableRowObject[i].Country}</td>
+ <td>${tableRowObject[i].TotalConfirmed}</td>
+ <td> 
+ <div class="clearfix">
+ <span class="float-left">
+ ${tableRowObject[i].NewConfirmed}
+ </span>
+ <span class="float-right">
+     <span class="fas fa-angle-double-up text-danger"></span>
+ </span>
+ </div> 
+ </td>
+ <td >
+ <div class="clearfix">
+ <span class="float-left">
+ ${tableRowObject[i].TotalDeaths}
+ </span>
+ <span class="float-right">
+     <span class="fas fa-angle-double-up text-danger"></span>
+ </span>
+ </div> 
+ </td>
+ <td >
+ <div class="clearfix">
+ <span class="float-left">
+ ${tableRowObject[i].TotalRecovered}
+ </span>
+ <span class="float-right">
+  <span class="fas fa-angle-double-up text-success"></span>
+ </span>
+ </div> 
+ </td>
+</tr>`;
+return tableRowData;
 }
-function myFunction()
-{
-    let uiObject;
-   let x = document.querySelector('.country-names').selectedIndex;
-//    alert(document.getElementsByTagName("option")[x].value);
-let selectedCountry=document.getElementsByTagName("option")[x].value;
-   document.querySelector('.media-body .selected-country').innerText=selectedCountry;
-   fetch(`https://covid19.mathdro.id/api/countries/${selectedCountry}`).then((res)=>{
-       return res.json();
-   }).then((data)=>{
-    uiObject=data;
-    displayObj(uiObject);
-   })
- }
 
-function  displayObj(uiObject)
- {
-    // let confirmedValue= document.querySelector('.selected-country .confirmed').innerText;
-    // let recoveredValue= document.querySelector('.selected-country .recovered').innerText;
-    // let deathsValue= document.querySelector('.selected-country .deaths').innerText;
-    // let lastUpdateValue= document.querySelector('.selected-country .lastUpdate').innerText;
-    document.querySelector('.selected-country .confirmed').innerText=uiObject.confirmed.value;
-    document.querySelector('.selected-country .recovered').innerText=uiObject.recovered.value;
-    document.querySelector('.selected-country .deaths').innerText=uiObject.deaths.value;
-    document.querySelector('.selected-country .lastUpdate').innerText=new Date(uiObject.lastUpdate).toLocaleDateString() + ", "+ new Date(uiObject.lastUpdate).toLocaleTimeString();
+fetch(
+  "https://api.covid19api.com/live/country/india/status/confirmed",
+  requestOptions
+)
+  .then((response) => response.json())
+  .then((result) => {
+    console.table(result);
+    setLineChartData(result);
+  })
+  .catch((error) => console.log("error", error));
+//
 
-    ///
-    document.querySelector('.media-body p span.confirmed').innerText=uiObject.confirmed.value;
-    document.querySelector('.media-body p span.recovered').innerText=uiObject.recovered.value;
-    document.querySelector('.media-body p span.deaths').innerText=uiObject.deaths.value;
-    document.querySelector('.media-body p span.lastUpdate').innerText= new Date(uiObject.lastUpdate).toLocaleDateString() + ", "+ new Date(uiObject.lastUpdate).toLocaleTimeString();
-    /*
-    <th>confirmed</th>
-                <th>recovered</th>
-                <th>deaths</th>
-                <th>lastUpdate</th>*/
- }
+function filterData(countryName_copy, Text) {
+  let filterText = Text.trim().toLowerCase();
+  let country_names = document.querySelector(".country-names");
+  let filterObjects = countryName_copy.Countries.filter(function (item) {
+    let reData =
+      item.Country.toLowerCase().includes(filterText) ||
+      item.TotalConfirmed.toString() === filterText ||
+      item.NewConfirmed.toString() === filterText ||
+      item.TotalDeaths.toString() == filterText ||
+      item.TotalRecovered.toString() == filterText;
+    return reData;
+  });
+  country_names.innerHTML = "";
+
+  for (let i = 0; i < filterObjects.length; i++) {
+    country_names.innerHTML += renderTable(filterObjects,i);
+  }
+
+}
+
+
+function nextSlot(num, countryName_copy) {
+  // prestartingI=n-1
+  // lI=n*10
+  let prestartingI = num - 1;
+  let lI = num * 10;
+  let d1 = prestartingI + "0";
+  let sI = parseInt(d1);
+  let nextslot = countryName_copy.Countries.slice(sI, lI);
+  country_names = document.querySelector(".country-names");
+  country_names.innerHTML = "";
+  for (let i = 0; i < nextslot.length; i++) {
+    country_names.innerHTML += renderTable(nextslot,i);
+  }
+
+}
