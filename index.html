@@ -278,10 +278,8 @@ body{
     function setLineChartData(result) {
         var lineChartData=result;
           for (let index = 0; index < lineChartData.length; index++) {
-              const date = lineChartData[index].Date;
-              const Deaths = lineChartData[index].Deaths;
-              const Recovered = lineChartData[index].Recovered;
-              const Confirmed = lineChartData[index].Confirmed;
+              
+            const {Date:date ,Deaths,Recovered,Confirmed}= lineChartData[index];
               mylineChart.data.labels.push(new Date(date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short'}).replace(/ /g, '-'));
               mylineChart.data.datasets[0].data.push(Deaths);
               mylineChart.data.datasets[1].data.push(Recovered);
@@ -296,9 +294,7 @@ body{
             })).slice(0, 10);
 
             for (let index = 0; index < barChartData.length; index++) {
-                const Country = barChartData[index].Country;
-                const TotalDeaths = barChartData[index].TotalDeaths;
-                const TotalConfirmed = barChartData[index].TotalConfirmed;
+                const {Country,TotalDeaths,TotalConfirmed}= barChartData[index];
                 myChart.data.labels.push(Country);
                 myChart.data.datasets[0].data.push(TotalDeaths);
                 chart.data.labels.push(Country);
