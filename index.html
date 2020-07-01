@@ -13,9 +13,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.rawgit.com/botmonster/jquery-bootpag/master/lib/jquery.bootpag.min.js"></script>
-    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js'></script>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+
+    <!-- <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"> -->
+
+
+   <!-- Fonts -->
+   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+
+   <!-- icons -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   
+   <!-- color Picker -->
+   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+   <script  src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
     <style>
       :root {
@@ -89,15 +100,123 @@ body{
     80% {  transform: translate(0px,630px) rotate(185deg);}
     100% {  transform: translate(0px,710px) rotate(250deg);}
 }
+/* loader */
+.loader,
+        .loader:after {
+            border-radius: 50%;
+            width: 20rem;
+            height: 20rem;
+        }
+        .loader {            
+            margin: 10rem auto;
+            font-size: 10px;
+            position: relative;
+            text-indent: -9999em;
+            border-top: 1.1em solid rgba(255, 255, 255, 0.2);
+            border-right: 1.1em solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1.1em solid rgba(255, 255, 255, 0.2);
+            border-left: 1.1em solid #ffffff;
+            -webkit-transform: translateZ(0);
+            -ms-transform: translateZ(0);
+            transform: translateZ(0);
+            -webkit-animation: circleLoader 1.1s infinite linear;
+            animation: circleLoader 1.1s infinite linear;
+        }
+        @-webkit-keyframes circleLoader {
+            0% {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+        @keyframes circleLoader {
+            0% {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+        #loadingDiv {
+            position:absolute;;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            background-color:rgba(46, 46, 46, 0.9);
+        }
+/* loader */
+    footer {
+    background-color: #454545;
+    color: white;
+    }
+    .page-footer .footer-links {
+    text-align: right;
+    }
+
+    @media screen and (max-width: 767px) {
+    .page-footer .footer-child {
+    text-align: center;
+    }
+    }
+  
+    /* .social{
+    } */
+    .social .fa {
+    padding: 1rem;
+    font-size: 1rem;
+    /* width: 1.5rem;
+    height: 1.5rem; */
+    text-align: center;
+    text-decoration: none;
+    margin: 5px 2px;
+    border-radius:50%;
+    border:3px solid #ccc;
+    box-shadow: 1px 9px 9px #231b1b, inset 2px 10px 10px rgb(146, 145, 145);
+    background:rgb(78, 78, 78); 
+    }
+
+    .social .fa:hover {
+    cursor: pointer;
+    transition:.7s;
+    transform: scale(.91); 
+    box-shadow: 1px 9px 9px #231b1b, inset 2px 10px 10px rgb(146, 145, 145);
+    }
+
+    .fa-google {
+    color: #dd4b39;
+    background: white;
+    }
+
+    .fa-linkedin {
+    color: #007bb5;
+    background: white;
+    }
+    
+    .google {
+    background-color: #dd4b39;
+    color: white;
+    }
+    .fa-instagram{
+    background: white;
+    color: #fe4164;
+    }
+    .linkedin {
+    background-color: #007bb5;
+    color: white;
+    }
+
 
     </style>
 </head>
 
 <body>
-    <div class="preloader">
-        <p>fdsfasd</p>
-        <!-- <img src="https://cme.uchicago.edu/sites/default/files/ewscripps.brightspotcdn.png" alt="" srcset=""> -->
-    </div>
+    
     <nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
         <a class="navbar-brand" href="javascript:void(0)"> Covid -19<img  class="img-responsive" id="headingIcon" src="https://tnips.org/images/novel_coronavirus.png" alt="covid-19" height="40" width="40" /></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -250,23 +369,70 @@ body{
         </div>
 
     </div>
-
+    <!-- footer -->
+    <footer class="py-5 page-footer">
+        <div class="container">
+          <div class="row">
+            <div class="col-12 col-md-6 footer-child copyright">
+              covid-19 © <span class="footer-year"></span> All Rights Reserved
+            </div>
+            <div class="col-12 col-md-6 footer-child footer-links">
+              <div class="social">
+                <a href="https://www.linkedin.com/in/karthik-r-a70001194" title="linkedin" target="_blank">
+                  <i class="fa fa-linkedin" aria-hidden="true"></i>
+                </a>
+                <a href="https://github.com/karthikraji2020" title="github" target="_blank">
+                  <i class="fa fa-github" aria-hidden="true"></i>
+                </a>
+                <a href="https://codepen.io/karthikraji2020" title="codepen" target="_blank">
+                  <i class="fa fa-codepen" aria-hidden="true"></i>
+                </a>
+                <a href="https://www.instagram.com/karthik__raji" title="instagram" target="_blank">
+                  <i class="fa fa-instagram" aria-hidden="true"></i>
+                </a>
+              </div>
+         
+              <div>
+                <small>Made with <i class="fa fa-heart text-red"></i> by <a href="https://www.linkedin.com/in/karthik-r-a70001194" target="_blank">Karthik Raji</a>
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+   
+    <!-- footer -->
     <script>
-        
-    $(window).load(function() {
-     $(".preloader").fadeOut(2000);
-    });
+
+    AOS.init();
+      document.querySelector('.footer-year').innerText= new Date().getFullYear();
         $(document).ready(function() {
+            renderLoader(2700);
             $('.toast').toast({
-                delay: 4000
+                delay: 6000
             });
             $('.toast').toast('show');
         });
+
    
-        var countryName_copy;
+    var countryName_copy;
     function formatNumber (num) {
         return new Intl.NumberFormat('en-IN').format(num);
     }
+
+    function renderLoader(ms) {
+            $('body').append('<div style="" id="loadingDiv"><div class="loader">Loading...</div></div>');
+        setTimeout(removeLoader, ms); 
+    }
+ 
+
+    function removeLoader(){
+            $( "#loadingDiv" ).fadeOut(500, function() {
+            // fadeOut complete. Remove the loading div
+            $( "#loadingDiv" ).remove(); //makes page more lightweight 
+        });  
+    }
+    
 
     function keyupfilter(text) {
         if (text.length !== 0) {
@@ -275,6 +441,7 @@ body{
             nextSlot(1, countryName_copy);
         }
     }
+
     function setLineChartData(result) {
         var lineChartData=result;
           for (let index = 0; index < lineChartData.length; index++) {
@@ -288,6 +455,7 @@ body{
       // re-render the chart
       mylineChart.update();
       }
+
      function setNames(countryNames) {
             var barChartData = countryNames.Countries.sort((function(a, b) {
                 return b.TotalConfirmed - a.TotalConfirmed;
