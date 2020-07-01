@@ -38,7 +38,7 @@ function renderTable(tableRowObject,i) {
  ${tableRowObject[i].NewConfirmed}
  </span>
  <span class="float-right">
-     <span class="fas fa-angle-double-up text-danger"></span>
+     <span class="fa fa-angle-double-up text-danger"></span>
  </span>
  </div> 
  </td>
@@ -48,7 +48,7 @@ function renderTable(tableRowObject,i) {
  ${tableRowObject[i].TotalDeaths}
  </span>
  <span class="float-right">
-     <span class="fas fa-angle-double-up text-danger"></span>
+     <span class="fa fa-angle-double-up text-danger"></span>
  </span>
  </div> 
  </td>
@@ -58,7 +58,7 @@ function renderTable(tableRowObject,i) {
  ${tableRowObject[i].TotalRecovered}
  </span>
  <span class="float-right">
-  <span class="fas fa-angle-double-up text-success"></span>
+  <span class="fa fa-angle-double-up text-success"></span>
  </span>
  </div> 
  </td>
