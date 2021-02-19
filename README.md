@@ -14,5 +14,5 @@ Applink :[Covid-19 Tracker Application](https://covid19livestatistics.netlify.ap
 2. Graphical representation.
 
 ## Tech Stack
-- Vennila Javascript.
+- Vannila Javascript.
 - HTML5,CSS3,bootstrap 4.3.
