@@ -6,7 +6,7 @@ Applink :[Covid-19 Tracker Application](https://covid19livestatistics.netlify.ap
 ## :film_projector: DEMO
 
 <p align="center">
-<img src="./assets/images/covid19.gif" alt="uigeneratorkit">
+<img src="./assets/images/covid19.gif" alt="covid19">
 </p>
 
 ###### Features
