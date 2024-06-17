@@ -1,32 +1,14 @@
-var URLS =[
-  `https://api.covid19api.com/summary`,
-  `https://api.covid19api.com/live/country/india/status/confirmed`
-];
-debugger;
-getChartData();
-var requestOptions = {
+const requestOptions = {
   method: "GET",
   redirect: "follow",
 };
+const URLS =[
+  `./assets/data/summary.json`,
+  `./assets/data/confirmed.json`,
+  `https://api.covid19api.com/summary`,
+  `https://api.covid19api.com/live/country/india/status/confirmed`
+];
 
-
-  async function getChartData() {
-    const first = fetch(`${URLS[0]}`, requestOptions).catch((error) => console.log("error", error));
-   const two = fetch(`${URLS[1]}`, requestOptions).catch((error) => console.log("error", error));
-   const firstvalue = await first.json();
-   debugger;
-   const secondvalue = await two.json();
- }
-
-fetch("https://api.covid19api.com/summary", requestOptions)
-  .then((response) => response.json())
-  .then((result) => {
-    console.table(result);
-    setNames(result);
-  })
-  .catch((error) => console.log("error", error));
-
-// for line chart
 
 function renderTable(tableRowObject,i) {
   let tableRowData= `<tr>
@@ -66,18 +48,6 @@ function renderTable(tableRowObject,i) {
 return tableRowData;
 }
 
-fetch(
-  "https://api.covid19api.com/live/country/india/status/confirmed",
-  requestOptions
-)
-  .then((response) => response.json())
-  .then((result) => {
-    console.table(result);
-    setLineChartData(result);
-  })
-  .catch((error) => console.log("error", error));
-//
-
 function filterData(countryName_copy, Text) {
   let filterText = Text.trim().toLowerCase();
   let country_names = document.querySelector(".country-names");
@@ -98,6 +68,21 @@ function filterData(countryName_copy, Text) {
 
 }
 
+
+  async function getChartData() {
+    const first = await fetch(`${URLS[0]}`, requestOptions).catch(error => console.log("error", error));
+   const two = await fetch(`${URLS[1]}`, requestOptions).catch(error => console.log("error", error));
+   const firstvalue = await first.json();
+   setNames(firstvalue);
+   const secondvalue = await two.json();
+   setLineChartData(secondvalue);
+ }
+
+
+
+// for line chart
+
+getChartData();
 
 function nextSlot(num, countryName_copy) {
   // prestartingI=n-1

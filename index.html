@@ -1,738 +1,866 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>COVID-19 Tracker</title>
-    <script src="./loadData.js"></script>
+    <script  src="./loadData.js" async></script>
     <!-- <link rel="stylesheet" href="style.css"> -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.rawgit.com/botmonster/jquery-bootpag/master/lib/jquery.bootpag.min.js"></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 
-   <!-- Fonts -->
-   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap"
+      rel="stylesheet"
+    />
 
-   <!-- icons -->
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-   
-   <!-- color Picker -->
-   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-   <script  src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- color Picker -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
     <style>
       :root {
-  --color-bg: #383838;
-  /* --color-bg: #31353a; */
-  --color-fg: #fff !important;
-}
-html {
-    scroll-behavior: smooth;
+        --color-bg: #383838;
+        /* --color-bg: #31353a; */
+        --color-fg: #fff !important;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: Roboto;
+        background-color: var(--color-bg);
+        color: var(--color-fg);
+      }
+      a {
+        font-weight: 500;
+        color: #fff;
+      }
+      a:hover {
+        text-decoration: none;
+        color: #fff;
+      }
 
-}
-body{
-  font-family:Roboto;
-  background-color: var(--color-bg);
-  color: var(--color-fg);
-}
-a {
-  font-weight: 500;
-  color: #fff;
-}
-a:hover {
-  text-decoration: none;
-  color: #fff;
-}
+      .jumbotron {
+        background: rgba(0, 0, 0, 0.3)
+          url("https://cme.uchicago.edu/sites/default/files/ewscripps.brightspotcdn.png")
+          no-repeat fixed center;
+        background-size: 100%;
+        color: #fff;
+        background-blend-mode: hard-light;
+      }
 
-.jumbotron{
-    background:rgba(0,0,0,0.3) url('https://cme.uchicago.edu/sites/default/files/ewscripps.brightspotcdn.png') no-repeat fixed center;
-    background-size: 100%;
-    color:#fff;
-    background-blend-mode: hard-light;
-}
+      #novel_coronavirus {
+        z-index: 100;
+        height: 50px;
+        width: 50px;
+        -webkit-animation: mover 1s infinite alternate;
+        animation: mover_noval 1s infinite alternate;
+      }
 
-#novel_coronavirus{
-  z-index: 100;
-    height: 50px;
-    width: 50px;
-    -webkit-animation: mover 1s infinite  alternate;
-    animation: mover_noval 1s infinite  alternate;
-}
+      #headingIcon {
+        z-index: 100;
+        height: 30px;
+        width: 30px;
+        -webkit-animation: swing 1s infinite alternate;
+        animation: swing 1s infinite alternate;
+      }
+      .shadow,
+      .table {
+        box-shadow: 3px 3px 4px 0 rgba(255, 255, 255, 0.17) inset,
+          -2px -2px 3px 0 rgba(0, 0, 0, 0.45) inset !important;
+      }
 
-#headingIcon{
-  z-index: 100;
-    height: 30px;
-    width: 30px;
-    -webkit-animation: swing 1s infinite  alternate;
-    animation: swing 1s infinite  alternate;
-}
-.shadow,.table {
-    box-shadow: 3px 3px 4px 0 rgba(255, 255, 255, 0.17) inset, -2px -2px 3px 0 rgba(0, 0, 0, .45) inset !important;
-}
-
-.bg-dark,.table-dark {
-  background-color: var(--color-bg) !important;
-}
-@-webkit-keyframes mover {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-10px); }
-}
-@keyframes mover {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-10px); }
-}
-@keyframes swing {
-    0% { transform: rotate(5deg); }
-    12.5% { transform: rotate(5deg); }
-    25% { transform: rotate(40deg); }
-    37.5% { transform: rotate(80deg); }
-    50% { transform: rotate(120deg); }
-    62.5% { transform: rotate(160deg); }
-    75% { transform: rotate(200deg); }
-    87.5% { transform: rotate(240deg); }
-    100% { transform: rotate(320deg); }
-}
-@keyframes mover_noval {
-    0% { transform: translate(0px,0px) rotate(5deg); }
-    10% { transform: translate(0px,180px) rotate(25deg); }
-    20% { transform: translate(0px,380px) rotate(25deg); }
-    50% { transform: translate(0px,480px) rotate(75deg); }
-    60% {  transform: translate(0px,550px) rotate(115deg);}
-    80% {  transform: translate(0px,630px) rotate(185deg);}
-    100% {  transform: translate(0px,710px) rotate(250deg);}
-}
-/* loader */
-.loader,
-        .loader:after {
-            border-radius: 50%;
-            width: 20rem;
-            height: 20rem;
+      .bg-dark,
+      .table-dark {
+        background-color: var(--color-bg) !important;
+      }
+      @-webkit-keyframes mover {
+        0% {
+          transform: translateY(0);
         }
-        .loader {            
-            margin: 10rem auto;
-            font-size: 10px;
-            position: relative;
-            text-indent: -9999em;
-            border-top: 1.1em solid rgba(255, 255, 255, 0.2);
-            border-right: 1.1em solid rgba(255, 255, 255, 0.2);
-            border-bottom: 1.1em solid rgba(255, 255, 255, 0.2);
-            border-left: 1.1em solid #ffffff;
-            -webkit-transform: translateZ(0);
-            -ms-transform: translateZ(0);
-            transform: translateZ(0);
-            -webkit-animation: circleLoader 1.1s infinite linear;
-            animation: circleLoader 1.1s infinite linear;
+        100% {
+          transform: translateY(-10px);
         }
-        @-webkit-keyframes circleLoader {
-            0% {
-                -webkit-transform: rotate(0deg);
-                transform: rotate(0deg);
-            }
-            100% {
-                -webkit-transform: rotate(360deg);
-                transform: rotate(360deg);
-            }
+      }
+      @keyframes mover {
+        0% {
+          transform: translateY(0);
         }
-        @keyframes circleLoader {
-            0% {
-                -webkit-transform: rotate(0deg);
-                transform: rotate(0deg);
-            }
-            100% {
-                -webkit-transform: rotate(360deg);
-                transform: rotate(360deg);
-            }
+        100% {
+          transform: translateY(-10px);
         }
-        #loadingDiv {
-            position:absolute;;
-            top:0;
-            left:0;
-            width:100%;
-            height:100%;
-            background-color:rgba(46, 46, 46, 0.9);
+      }
+      @keyframes swing {
+        0% {
+          transform: rotate(5deg);
         }
-/* loader */
-    footer {
-    background-color: #454545;
-    color: white;
-    }
-    .page-footer .footer-links {
-    text-align: right;
-    }
+        12.5% {
+          transform: rotate(5deg);
+        }
+        25% {
+          transform: rotate(40deg);
+        }
+        37.5% {
+          transform: rotate(80deg);
+        }
+        50% {
+          transform: rotate(120deg);
+        }
+        62.5% {
+          transform: rotate(160deg);
+        }
+        75% {
+          transform: rotate(200deg);
+        }
+        87.5% {
+          transform: rotate(240deg);
+        }
+        100% {
+          transform: rotate(320deg);
+        }
+      }
+      @keyframes mover_noval {
+        0% {
+          transform: translate(0px, 0px) rotate(5deg);
+        }
+        10% {
+          transform: translate(0px, 180px) rotate(25deg);
+        }
+        20% {
+          transform: translate(0px, 380px) rotate(25deg);
+        }
+        50% {
+          transform: translate(0px, 480px) rotate(75deg);
+        }
+        60% {
+          transform: translate(0px, 550px) rotate(115deg);
+        }
+        80% {
+          transform: translate(0px, 630px) rotate(185deg);
+        }
+        100% {
+          transform: translate(0px, 710px) rotate(250deg);
+        }
+      }
+      /* loader */
+      .loader,
+      .loader:after {
+        border-radius: 50%;
+        width: 6rem;
+        height: 6rem;
+      }
+      .loader {
+        position: absolute;
+        font-size: 10px;
+        top: 50%;
+        left: 50%;
+        text-indent: -9999em;
+        border-top: 1.1em solid rgba(255, 255, 255, 0.2);
+        border-right: 1.1em solid rgba(255, 255, 255, 0.2);
+        border-bottom: 1.1em solid rgba(255, 255, 255, 0.2);
+        border-left: 1.1em solid #ffffff;
+        -webkit-transform: translateZ(0);
+        -ms-transform: translateZ(0);
+        transform: translate(50%, 50%);
+        -webkit-animation: circleLoader 1.1s infinite linear;
+        animation: circleLoader 1.1s infinite linear;
+      }
+      @-webkit-keyframes circleLoader {
+        0% {
+          -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+        }
+        100% {
+          -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes circleLoader {
+        0% {
+          -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+        }
+        100% {
+          -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+        }
+      }
+      #loadingDiv {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(46, 46, 46, 0.9);
+      }
+      /* loader */
+      footer {
+        background-color: #454545;
+        color: white;
+      }
+      .page-footer .footer-links {
+        text-align: right;
+      }
 
-    @media screen and (max-width: 767px) {
-    .page-footer .footer-child {
-    text-align: center;
-    }
-    }
-  
-    /* .social{
+      @media screen and (max-width: 767px) {
+        .page-footer .footer-child {
+          text-align: center;
+        }
+      }
+
+      /* .social{
     } */
-    .social .fa {
-    padding: 1rem;
-    font-size: 1rem;
-    /* width: 1.5rem;
+      .social .fa {
+        padding: 1rem;
+        font-size: 1rem;
+        /* width: 1.5rem;
     height: 1.5rem; */
-    text-align: center;
-    text-decoration: none;
-    margin: 5px 2px;
-    border-radius:50%;
-    border:3px solid #ccc;
-    box-shadow: 1px 9px 9px #231b1b, inset 2px 10px 10px rgb(146, 145, 145);
-    background:rgb(78, 78, 78); 
-    }
+        text-align: center;
+        text-decoration: none;
+        margin: 5px 2px;
+        border-radius: 50%;
+        border: 3px solid #ccc;
+        box-shadow: 1px 9px 9px #231b1b, inset 2px 10px 10px rgb(146, 145, 145);
+        background: rgb(78, 78, 78);
+      }
 
-    .social .fa:hover {
-    cursor: pointer;
-    transition:.7s;
-    transform: scale(.91); 
-    box-shadow: 1px 9px 9px #231b1b, inset 2px 10px 10px rgb(146, 145, 145);
-    }
+      .social .fa:hover {
+        cursor: pointer;
+        transition: 0.7s;
+        transform: scale(0.91);
+        box-shadow: 1px 9px 9px #231b1b, inset 2px 10px 10px rgb(146, 145, 145);
+      }
 
-    .fa-google {
-    color: #dd4b39;
-    background: white;
-    }
+      .fa-google {
+        color: #dd4b39;
+        background: white;
+      }
 
-    .fa-linkedin {
-    color: #007bb5;
-    background: white;
-    }
-    
-    .fa-.google {
-    background-color: #dd4b39;
-    color: white;
-    }
-    .fa-instagram{
-    background: white;
-    color: #fe4164;
-    }
-    .fa-.linkedin {
-    background-color: #007bb5;
-    color: white;
-    }
-   
-    ul.pagination.bootpag li {
-    border-radius: .3rem;
-    padding: .5rem;
-    color: white !important;
-    background: #424242;
-    /* border: 1px solid black; */
-    box-shadow: 3px 3px 4px 0 rgba(255, 255, 255, 0.17) inset, -2px -2px 3px 0 rgba(0, 0, 0, .45) inset !important;
+      .fa-linkedin {
+        color: #007bb5;
+        background: white;
+      }
 
-    }
-    ul.pagination.bootpag li a{
+      .fa-.google {
+        background-color: #dd4b39;
+        color: white;
+      }
+      .fa-instagram {
+        background: white;
+        color: #fe4164;
+      }
+      .fa-.linkedin {
+        background-color: #007bb5;
+        color: white;
+      }
+
+      ul.pagination.bootpag li {
+        border-radius: 0.3rem;
+        padding: 0.5rem;
         color: white !important;
-    }
-    ul.pagination.bootpag li a:hover{
-        cursor:point !important;
-    }
+        background: #424242;
+        /* border: 1px solid black; */
+        box-shadow: 3px 3px 4px 0 rgba(255, 255, 255, 0.17) inset,
+          -2px -2px 3px 0 rgba(0, 0, 0, 0.45) inset !important;
+      }
+      ul.pagination.bootpag li a {
+        color: white !important;
+      }
+      ul.pagination.bootpag li a:hover {
+        cursor: point !important;
+      }
     </style>
-</head>
+  </head>
 
-<body>
-    
+  <body>
     <nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top shadow">
-        <a class="navbar-brand shadow" href="javascript:void(0)"> Covid -19<img  class="img-responsive" id="headingIcon" src="https://tnips.org/images/novel_coronavirus.png" alt="covid-19" height="40" width="40" /></a>
-        <button class="navbar-toggler shadow" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse t" id="collapsibleNavbar">
-            <ul class="navbar-nav mr-auto">
-            </ul>
-          <ul class="navbar-nav ">
-            <li class="nav-item shadow">
-              <a class="nav-link" href="#visualization">visualization</a>
-            </li>
-            <li class="nav-item shadow">
-              <a class="nav-link" href="#search">Search</a>
-            </li>
-<!--             <li class="nav-item shadow">
+      <a class="navbar-brand shadow" href="javascript:void(0)">
+        Covid -19<img
+          class="img-responsive"
+          id="headingIcon"
+          src="https://tnips.org/images/novel_coronavirus.png"
+          alt="covid-19"
+          height="40"
+          width="40"
+      /></a>
+      <button
+        class="navbar-toggler shadow"
+        type="button"
+        data-toggle="collapse"
+        data-target="#collapsibleNavbar"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse t" id="collapsibleNavbar">
+        <ul class="navbar-nav mr-auto"></ul>
+        <ul class="navbar-nav">
+          <li class="nav-item shadow">
+            <a class="nav-link" href="#visualization">visualization</a>
+          </li>
+          <li class="nav-item shadow">
+            <a class="nav-link" href="#search">Search</a>
+          </li>
+          <!--             <li class="nav-item shadow">
               <a class="nav-link" href="#search">Search</a>
             </li> -->
-             
-          </ul>
-        </div>  
-      </nav>
-      <br>
-      <br>
-      <br>
+        </ul>
+      </div>
+    </nav>
+    <br />
+    <br />
+    <br />
     <!-- <img src="https://tnips.org/images/novel_coronavirus.png" id="novel_coronavirus"  class="rounded-circle"  srcset="" > -->
- 
+
     <div class="container">
-        <div class="jumbotron">
- 
-  <h1>COVID-19 Tracker  <img src="https://tnips.org/images/novel_coronavirus.png" id="headingIcon"  class="rounded-circle"  srcset="" > </h1>
-            <p># stay home</p>
-            <b>  To prevent the spread of COVID-19:</b>
-           
-          <marquee>
-          Clean your hands often. Use soap and water, or an alcohol-based hand rub.
-          Maintain a safe distance from anyone who is coughing or sneezing.
-          Don’t touch your eyes, nose or mouth.
-          Cover your nose and mouth with your bent elbow or a tissue when you cough or sneeze.
-          Stay home if you feel unwell.
-          If you have a fever, a cough, and difficulty breathing, seek medical attention. Call in advance.
-          Follow the directions of your local health authority.
+      <div class="jumbotron">
+        <h1>
+          COVID-19 Tracker
+          <img
+            src="https://tnips.org/images/novel_coronavirus.png"
+            id="headingIcon"
+            class="rounded-circle"
+            srcset=""
+          />
+        </h1>
+        <p># stay home</p>
+        <b> To prevent the spread of COVID-19:</b>
+
+        <marquee>
+          Clean your hands often. Use soap and water, or an alcohol-based hand
+          rub. Maintain a safe distance from anyone who is coughing or sneezing.
+          Don’t touch your eyes, nose or mouth. Cover your nose and mouth with
+          your bent elbow or a tissue when you cough or sneeze. Stay home if you
+          feel unwell. If you have a fever, a cough, and difficulty breathing,
+          seek medical attention. Call in advance. Follow the directions of your
+          local health authority.
         </marquee>
-        </div>
+      </div>
 
-        <div class="card-columns">
-            <div class="card bg-dark rounded  shadow">
-                <div class="card-body ">
-                    <div class="card-text">
-                        <div class="clearfix">
-                            <span class="float-left">
-                                          <h1 class="gTotalConfirmed"></h1> 
-                                          <p>Total Cases In the world</p>
-                             </span>
-                            <span class="float-right">
-                                          <i class='fa fa-users fa-4x text-danger'></i>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card bg-dark rounded shadow">
-                <div class="card-body ">
-                    <div class="card-text">
-                        <div class="clearfix">
-                            <span class="float-left">
-                                                      <h1 class="gTotalDeaths"></h1>
-                                                      <p>Total Deaths In the world</p>
-                                                  </span>
-                            <span class="float-right">
-                                                          <i class='fa fa-bed fa-4x text-warning'></i>
-                                                  </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card bg-dark rounded border border-dark shadow">
-                <div class="card-body "> 
-                    <div class="card-text">
-                        <div class="clearfix">
-                            <span class="float-left">
-                                                          <h1 class="gTotalRecovered"></h1>
-                                                          <p>Total Recovered In the world</p>
-                             </span>
-                            <span class="float-right">
-                                                          <i class='fa fa-heartbeat fa-4x text-success'></i>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="toast mt-3">
-                <div class="toast-header">
-                    Last Updated
-                </div>
-                <div class="toast-body">
-                    <span class="badge badge-dark lastUpdate"> </span>
-                </div>
-            </div>
-        </div>
-
-        <div class="row"  id="visualization">
-            <div class="col-sm-6 col-md-6 bg-dark rounded  shadow">
-                <canvas id="pieChart" width="400" height="400"></canvas>
-            </div>
-            <div class="col-sm-1 col-md-1"></div>
-            <div class="col-sm-5  col-md-5  bg-dark rounded  shadow">
-                <canvas id="mylineChart" width="400" height="400"></canvas>
-            </div>
-        </div>
-
-         <br>
-        <br>
-        <div class="row" id="search">
-            <div class="col-sm-6 ">
-            </div>
-            <div class="col-sm-1"></div>
-            <div class="col-sm-5  bg-dark rounded  shadow">
-                <div class="input-group mb-3">
-                <input type="text" id="myInput" class="form-control" onkeyup="keyupfilter(this.value)" placeholder="Search for countryNames/TotalConfirmed.." title="Type in a name">
-                    <div class="input-group-append">
-                 <button onclick="keyupfilter(this.value)"  class="btn btn-success"> <i class="fa fa-search"></i></button>
-                    </div>
-                  </div>
-            </div>
-        </div>
-        <br>
-   <div class="table-responsive">   
-        <table class="table  table-dark table-striped table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>Country</th>
-                    <th>TotalConfirmed</th>
-                    <th>NewConfirmed</th>
-                    <th>TotalDeaths</th>
-                    <th>TotalRecovered</th>
-                </tr>
-            </thead>
-            <p id="content">
-                <tbody class="country-names">
-                </tbody>
-            </p>
-        </table>
-        <p id="pagination-here"></p>
-        
-  </div>
-        <div class="row bg-dark rounded  shadow">
-            <div class="col-sm-12 ">
-                <canvas id="myChart" width="400" height="400"></canvas>
-            </div>
-        </div>
-
-    </div>
-    <br>
-    <br>
-    <!-- footer -->
-    <footer class="py-5 page-footer">
-        <div class="container">
-          <div class="row">
-            <div class="col-12 col-md-6 footer-child copyright">
-              covid-19 © <span class="footer-year"></span> All Rights Reserved
-            </div>
-            <div class="col-12 col-md-6 footer-child footer-links">
-              <div class="social">
-                <a href="https://www.linkedin.com/in/karthik-r-a70001194" title="linkedin" target="_blank">
-                  <i class="fa fa-linkedin" aria-hidden="true"></i>
-                </a>
-                <a href="https://github.com/karthikraji2020" title="github" target="_blank">
-                  <i class="fa fa-github" aria-hidden="true"></i>
-                </a>
-                <a href="https://codepen.io/karthikraji2020" title="codepen" target="_blank">
-                  <i class="fa fa-codepen" aria-hidden="true"></i>
-                </a>
-                <a href="https://www.instagram.com/karthik__raji" title="instagram" target="_blank">
-                  <i class="fa fa-instagram" aria-hidden="true"></i>
-                </a>
-              </div>
-         
-              <div>
-                <small>Made with <i class="fa fa-heart text-red"></i> by <a href="https://www.linkedin.com/in/karthik-r-a70001194" target="_blank">Karthik Raji</a>
-                </small>
+      <div class="card-columns">
+        <div class="card bg-dark rounded shadow">
+          <div class="card-body">
+            <div class="card-text">
+              <div class="clearfix">
+                <span class="float-left">
+                  <h1 class="gTotalConfirmed"></h1>
+                  <p>Total Cases In the world</p>
+                </span>
+                <span class="float-right">
+                  <i class="fa fa-users fa-4x text-danger"></i>
+                </span>
               </div>
             </div>
           </div>
         </div>
-      </footer>
-   
+        <div class="card bg-dark rounded shadow">
+          <div class="card-body">
+            <div class="card-text">
+              <div class="clearfix">
+                <span class="float-left">
+                  <h1 class="gTotalDeaths"></h1>
+                  <p>Total Deaths In the world</p>
+                </span>
+                <span class="float-right">
+                  <i class="fa fa-bed fa-4x text-warning"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card bg-dark rounded border border-dark shadow">
+          <div class="card-body">
+            <div class="card-text">
+              <div class="clearfix">
+                <span class="float-left">
+                  <h1 class="gTotalRecovered"></h1>
+                  <p>Total Recovered In the world</p>
+                </span>
+                <span class="float-right">
+                  <i class="fa fa-heartbeat fa-4x text-success"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="toast mt-3">
+          <div class="toast-header">Last Updated</div>
+          <div class="toast-body">
+            <span class="badge badge-dark lastUpdate"> </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" id="visualization">
+        <div class="col-sm-6 col-md-6 bg-dark rounded shadow">
+          <canvas id="pieChart" width="400" height="400"></canvas>
+        </div>
+        <div class="col-sm-1 col-md-1"></div>
+        <div class="col-sm-5 col-md-5 bg-dark rounded shadow">
+          <canvas id="mylineChart" width="400" height="400"></canvas>
+        </div>
+      </div>
+
+      <br />
+      <br />
+      <div class="row" id="search">
+        <div class="col-sm-6"></div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-5 bg-dark rounded shadow">
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              id="myInput"
+              class="form-control"
+              onkeyup="keyupfilter(this.value)"
+              placeholder="Search for countryNames/TotalConfirmed.."
+              title="Type in a name"
+            />
+            <div class="input-group-append">
+              <button onclick="keyupfilter(this.value)" class="btn btn-success">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br />
+      <div class="table-responsive">
+        <table
+          class="table table-dark table-striped table-bordered table-hover"
+        >
+          <thead>
+            <tr>
+              <th>Country</th>
+              <th>TotalConfirmed</th>
+              <th>NewConfirmed</th>
+              <th>TotalDeaths</th>
+              <th>TotalRecovered</th>
+            </tr>
+          </thead>
+          <p id="content">
+            <tbody class="country-names"></tbody>
+          </p>
+        </table>
+        <p id="pagination-here"></p>
+      </div>
+      <div class="row bg-dark rounded shadow">
+        <div class="col-sm-12">
+          <canvas id="myChart" width="400" height="400"></canvas>
+        </div>
+      </div>
+    </div>
+    <br />
+    <br />
+    <!-- footer -->
+    <footer class="py-5 page-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-md-6 footer-child copyright">
+            covid-19 © <span class="footer-year"></span> All Rights Reserved
+          </div>
+          <div class="col-12 col-md-6 footer-child footer-links">
+            <div class="social">
+              <a
+                href="https://www.linkedin.com/in/karthik-r-a70001194"
+                title="linkedin"
+                target="_blank"
+              >
+                <i class="fa fa-linkedin" aria-hidden="true"></i>
+              </a>
+              <a
+                href="https://github.com/karthikraji2020"
+                title="github"
+                target="_blank"
+              >
+                <i class="fa fa-github" aria-hidden="true"></i>
+              </a>
+              <a
+                href="https://codepen.io/karthikraji2020"
+                title="codepen"
+                target="_blank"
+              >
+                <i class="fa fa-codepen" aria-hidden="true"></i>
+              </a>
+              <a
+                href="https://www.instagram.com/karthik__raji"
+                title="instagram"
+                target="_blank"
+              >
+                <i class="fa fa-instagram" aria-hidden="true"></i>
+              </a>
+            </div>
+
+            <div>
+              <small
+                >Made with <i class="fa fa-heart text-red"></i> by
+                <a
+                  href="https://www.linkedin.com/in/karthik-r-a70001194"
+                  target="_blank"
+                  >Karthik Raji</a
+                >
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
     <!-- footer -->
     <script>
-
-    AOS.init();
-      document.querySelector('.footer-year').innerText= new Date().getFullYear();
-        $(document).ready(function() {
-            renderLoader(2700);
-            $('.toast').toast({
-                delay: 6000
-            });
-            $('.toast').toast('show');
+      AOS.init();
+      document.querySelector(".footer-year").innerText =
+        new Date().getFullYear();
+      $(document).ready(function () {
+        renderLoader(2700);
+        $(".toast").toast({
+          delay: 6000,
         });
+        $(".toast").toast("show");
+      });
 
-   
-    var countryName_copy;
-    function formatNumber (num) {
-        return new Intl.NumberFormat('en-IN').format(num);
-    }
-
-    function renderLoader(ms) {
-            $('body').append('<div style="" id="loadingDiv"><div class="loader">Loading...</div></div>');
-        setTimeout(removeLoader, ms); 
-    }
- 
-
-    function removeLoader(){
-            $( "#loadingDiv" ).fadeOut(500, function() {
-            // fadeOut complete. Remove the loading div
-            $( "#loadingDiv" ).remove(); //makes page more lightweight 
-        });  
-    }
-    
-
-    function keyupfilter(text) {
-        if (text.length !== 0) {
-            filterData(countryName_copy, text);
-        } else {
-            nextSlot(1, countryName_copy);
-        }
-    }
-
-    function setLineChartData(result) {
-        var lineChartData=result;
-          for (let index = 0; index < lineChartData.length; index++) {
-              
-            const {Date:date ,Deaths,Recovered,Confirmed}= lineChartData[index];
-              mylineChart.data.labels.push(new Date(date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short'}).replace(/ /g, '-'));
-              mylineChart.data.datasets[0].data.push(Deaths);
-              mylineChart.data.datasets[1].data.push(Recovered);
-              mylineChart.data.datasets[2].data.push(Confirmed);
-          }
-      // re-render the chart
-      mylineChart.update();
+      var countryName_copy;
+      function formatNumber(num) {
+        return new Intl.NumberFormat("en-IN").format(num);
       }
 
-     function setNames(countryNames) {
-            var barChartData = countryNames.Countries.sort((function(a, b) {
-                return b.TotalConfirmed - a.TotalConfirmed;
-            })).slice(0, 10);
+      function renderLoader(ms) {
+        $("body").append(
+          '<div style="" id="loadingDiv"><div class="loader">Loading...</div></div>'
+        );
+        setTimeout(removeLoader, ms);
+      }
 
-            for (let index = 0; index < barChartData.length; index++) {
-                const {Country,TotalDeaths,TotalConfirmed}= barChartData[index];
-                myChart.data.labels.push(Country);
-                myChart.data.datasets[0].data.push(TotalDeaths);
-                chart.data.labels.push(Country);
-                chart.data.datasets[0].data.push(TotalConfirmed);
-            }
-            // re-render the chart
-            myChart.update();
-            chart.update();
-            countryName_copy = countryNames;
-            let uiGlobalCaseObject = countryNames.Global;
-            let country_names;
-            document.querySelector('.gTotalConfirmed').innerText = formatNumber(uiGlobalCaseObject.TotalConfirmed);
-            document.querySelector('.gTotalDeaths').innerText = formatNumber(uiGlobalCaseObject.TotalDeaths);
-            document.querySelector('.gTotalRecovered').innerText = formatNumber(uiGlobalCaseObject.TotalRecovered);
-            document.querySelector('.lastUpdate').innerText = new Date(countryNames.Date).toLocaleDateString() + ", " + new Date(countryNames.Date).toLocaleTimeString();
-            country_names = document.querySelector('.country-names');
-            let firstslot = countryNames.Countries.slice(0, 10);
-
-            for (let i = 0; i < firstslot.length; i++) {
-                country_names.innerHTML +=  renderTable(firstslot,i);
-            }
-        
-        }
-
-        $('#pagination-here').bootpag({
-                    total: 27,
-                    page: 1,
-                    maxVisible: 10,
-                    leaps: true,
-                    href: "#result-page-{{number}}",
-        })
-
-        //page click action
-        $('#pagination-here').on("page", function(event, num) {
-            //show / hide content or pull via ajax etc
-            nextSlot(num, countryName_copy);
-            //   $("#content").html("Page " + num); 
+      function removeLoader() {
+        $("#loadingDiv").fadeOut(500, function () {
+          // fadeOut complete. Remove the loading div
+          $("#loadingDiv").remove(); //makes page more lightweight
         });
+      }
+
+      function keyupfilter(text) {
+        if (text.length !== 0) {
+          filterData(countryName_copy, text);
+        } else {
+          nextSlot(1, countryName_copy);
+        }
+      }
+
+      function setLineChartData(result) {
+        var lineChartData = result,
+          len = lineChartData.length;
+        for (let index = 0; index < len; index++) {
+          if (index % 100 == 0) {
+            const {
+              Date: date,
+              Deaths,
+              Recovered,
+              Confirmed,
+            } = lineChartData[index];
+            mylineChart.data.labels.push(
+              new Date(date)
+                .toLocaleDateString("en-GB", { day: "2-digit", month: "short" })
+                .replace(/ /g, "-")
+            );
+            mylineChart.data.datasets[0].data.push(Deaths);
+            mylineChart.data.datasets[1].data.push(Recovered);
+            mylineChart.data.datasets[2].data.push(Confirmed);
+          }
+        }
+        // re-render the chart
+        mylineChart.update();
+      }
+
+      function setNames(countryNames) {
+        var barChartData = countryNames.Countries.sort(function (a, b) {
+          return b.TotalConfirmed - a.TotalConfirmed;
+        }).slice(0, 10);
+
+        for (let index = 0; index < barChartData.length; index++) {
+          const { Country, TotalDeaths, TotalConfirmed } = barChartData[index];
+          myChart.data.labels.push(Country);
+          myChart.data.datasets[0].data.push(TotalDeaths);
+          chart.data.labels.push(Country);
+          chart.data.datasets[0].data.push(TotalConfirmed);
+        }
+        // re-render the chart
+        myChart.update();
+        chart.update();
+        countryName_copy = countryNames;
+        let uiGlobalCaseObject = countryNames.Global;
+        let country_names;
+        document.querySelector(".gTotalConfirmed").innerText = formatNumber(
+          uiGlobalCaseObject.TotalConfirmed
+        );
+        document.querySelector(".gTotalDeaths").innerText = formatNumber(
+          uiGlobalCaseObject.TotalDeaths
+        );
+        document.querySelector(".gTotalRecovered").innerText = formatNumber(
+          uiGlobalCaseObject.TotalRecovered
+        );
+        document.querySelector(".lastUpdate").innerText =
+          new Date(countryNames.Date).toLocaleDateString() +
+          ", " +
+          new Date(countryNames.Date).toLocaleTimeString();
+        country_names = document.querySelector(".country-names");
+        let firstslot = countryNames.Countries.slice(0, 10);
+
+        for (let i = 0; i < firstslot.length; i++) {
+          country_names.innerHTML += renderTable(firstslot, i);
+        }
+      }
+
+      $("#pagination-here").bootpag({
+        total: 27,
+        page: 1,
+        maxVisible: 10,
+        leaps: true,
+        href: "#result-page-{{number}}",
+      });
+
+      //page click action
+      $("#pagination-here").on("page", function (event, num) {
+        //show / hide content or pull via ajax etc
+        nextSlot(num, countryName_copy);
+        //   $("#content").html("Page " + num);
+      });
     </script>
 
     <!-- bar chart -->
     <script>
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: [],
-                datasets: [{
-                    label: 'No of Deaths',
-                    data: [],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.7)',
-                        'rgba(54, 162, 235, 0.7)',
-                        'rgba(255, 206, 86, 0.7)',
-                        'rgba(75, 192, 192, 0.7)',
-                        'rgba(153, 102, 255, 0.7)',
-                        'rgba(153, 102, 255, 0.7)',
-                        'rgba(153, 102, 255, 0.7)',
-                        'rgba(255, 159, 64, 0.7)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
+      var ctx = document.getElementById("myChart").getContext("2d");
+      var myChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: [],
+          datasets: [
+            {
+              label: "No of Deaths",
+              data: [],
+              backgroundColor: [
+                "rgba(255, 99, 132, 0.7)",
+                "rgba(54, 162, 235, 0.7)",
+                "rgba(255, 206, 86, 0.7)",
+                "rgba(75, 192, 192, 0.7)",
+                "rgba(153, 102, 255, 0.7)",
+                "rgba(153, 102, 255, 0.7)",
+                "rgba(153, 102, 255, 0.7)",
+                "rgba(255, 159, 64, 0.7)",
+              ],
+              borderColor: [
+                "rgba(255, 99, 132, 1)",
+                "rgba(54, 162, 235, 1)",
+                "rgba(255, 206, 86, 1)",
+                "rgba(75, 192, 192, 1)",
+                "rgba(153, 102, 255, 1)",
+                "rgba(255, 159, 64, 1)",
+              ],
+              borderWidth: 1,
             },
-            options: {
-                maintainAspectRatio: false,
-                responsive: true,
-                title: {
-                    display: true,
-                    text: "Total Deaths Cases in country",
+          ],
+        },
+        options: {
+          maintainAspectRatio: false,
+          responsive: true,
+          title: {
+            display: true,
+            text: "Total Deaths Cases in country",
+          },
+          legend: {
+            display: true,
+          },
+          scales: {
+            yAxes: [
+              {
+                ticks: {
+                  fontColor: "white",
+                  fontSize: 14,
+                  beginAtZero: true,
+                  min: 0,
+                  stepSize: 20000,
                 },
-                legend: {
-                    display: true
-                },
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                          fontColor: "white",
-                          fontSize: 14,
-                            beginAtZero: true,
-                            min: 0,
-                            stepSize: 20000
-                        }
-                    }],
-                    xAxes: [{
-              ticks: {
+              },
+            ],
+            xAxes: [
+              {
+                ticks: {
                   fontColor: "white",
                   fontSize: 14,
                   stepSize: 1,
-                  beginAtZero: true
-              }
-            }]
-                }
-            }
-        });
-
-        let ctx1 = document.getElementById('pieChart').getContext('2d');
-        // pie chart options
-        var pieOptions = {
-                segmentShowStroke: false,
-                animateScale: true
-            }
-            // new Chart(pieChart).Pie(pieData, ctx1);
-        let chart = new Chart(ctx1, {
-            type: 'pie',
-            data: {
-                labels: [],
-                datasets: [{
-                    data: [],
-                    label: 'Coronavirus Activity in Poland',
-                    backgroundColor: ['rgba(255, 99, 132, 1)',
-                        'rgba(194, 132, 135, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(75, 192, 12, 1)',
-                        'rgba(75, 12, 192, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(153, 12, 25, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderColor: 'transparent',
-                }]
-            },
-            options: {
-                responsive: true,
-                title: {
-                    display: true,
-                    text: "Total Confirmed Cases in country",
+                  beginAtZero: true,
                 },
-                legend: {
-                    display: true,
-                    fontColor: "white",
-                     fontSize: 14,
-                }
-                
-            }
-        });
-        // 
-       var mylineChartCtx = document.getElementById('mylineChart').getContext('2d');
-        var mylineChart = new Chart(mylineChartCtx, {
-            // The type of chart we want to create
-            type: 'line', // also try bar or other graph types
-            // The data for our dataset
-            data: {
-                labels:[],
-                // Information about the dataset
-                datasets: [
-                {
-                    label: "Deaths",
-                       backgroundColor:  'rgba(255, 2, 12, .7)',
-                    borderColor:  'rgba(175, 2, 2, 1)',
-                   data:[]
-                },
-                {
-                    label: 'Recovered',
-                    backgroundColor:  'rgba(75, 192, 12, .7)',
-                    borderColor:  'rgba(75, 142, 12, 1)',
-                    data: [],
-                 }
-                ,
-                {
-                    label: 'Confirmed',
-                    backgroundColor:  'rgba(255, 112, 12, .7)',
-                    borderColor:  'rgba(255, 112, 12, 1)',
-                    data: [],
-                 }
+              },
             ],
+          },
+        },
+      });
 
-                options: {
-                maintainAspectRatio: false,
-                responsive: true,
-                title: {
-                    display: true,
-                },
-                legend: {
-                    display: true
-                },
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                          fontColor: "white",
-                          fontSize: 14,
-                        }
-                    }],
-                    xAxes: [{
-                        ticks: {
-                            fontColor: "white",
-                            fontSize: 14,
-                        }
-            }]
-                }
-            }
+      let ctx1 = document.getElementById("pieChart").getContext("2d");
+      // pie chart options
+      var pieOptions = {
+        segmentShowStroke: false,
+        animateScale: true,
+      };
+      // new Chart(pieChart).Pie(pieData, ctx1);
+      let chart = new Chart(ctx1, {
+        type: "pie",
+        data: {
+          labels: [],
+          datasets: [
+            {
+              data: [],
+              label: "Coronavirus Activity in Poland",
+              backgroundColor: [
+                "rgba(255, 99, 132, 1)",
+                "rgba(194, 132, 135, 1)",
+                "rgba(75, 192, 192, 1)",
+                "rgba(75, 192, 12, 1)",
+                "rgba(75, 12, 192, 1)",
+                "rgba(75, 192, 192, 1)",
+                "rgba(255, 206, 86, 1)",
+                "rgba(153, 102, 255, 1)",
+                "rgba(153, 12, 25, 1)",
+                "rgba(255, 159, 64, 1)",
+              ],
+              borderColor: "transparent",
             },
+          ],
+        },
+        options: {
+          responsive: true,
+          title: {
+            display: true,
+            text: "Total Confirmed Cases in country",
+          },
+          legend: {
+            display: true,
+            fontColor: "white",
+            fontSize: 14,
+          },
+        },
+      });
+      //
+      var mylineChartCtx = document
+        .getElementById("mylineChart")
+        .getContext("2d");
+      var mylineChart = new Chart(mylineChartCtx, {
+        // The type of chart we want to create
+        type: "line", // also try bar or other graph types
+        // The data for our dataset
+        data: {
+          labels: [],
+          // Information about the dataset
+          datasets: [
+            {
+              label: "Deaths",
+              backgroundColor: "rgba(255, 2, 12, .7)",
+              borderColor: "rgba(175, 2, 2, 1)",
+              data: [],
+            },
+            {
+              label: "Recovered",
+              backgroundColor: "rgba(75, 192, 12, .7)",
+              borderColor: "rgba(75, 142, 12, 1)",
+              data: [],
+            },
+            {
+              label: "Confirmed",
+              backgroundColor: "rgba(255, 112, 12, .7)",
+              borderColor: "rgba(255, 112, 12, 1)",
+              data: [],
+            },
+          ],
 
-            // Configuration options
-            options: {
-                layout: {
-                    padding: 10,
+          options: {
+            maintainAspectRatio: false,
+            responsive: true,
+            title: {
+              display: true,
+            },
+            legend: {
+              display: true,
+            },
+            scales: {
+              yAxes: [
+                {
+                  ticks: {
+                    fontColor: "white",
+                    fontSize: 14,
+                  },
                 },
-                legend: {
-                    position: 'bottom',
+              ],
+              xAxes: [
+                {
+                  ticks: {
+                    fontColor: "white",
+                    fontSize: 14,
+                  },
                 },
-                title: {
-                    display: true,
-                    text: 'India'
-                },
-                scales: {
-                    yAxes: [
-                   {
-                    ticks: {
-                          fontColor: "white",
-                          fontSize: 14,
-                            beginAtZero: true,
-                            
-                        },  scaleLabel: {
-                            display: true,
-                            labelString: 'No of People'
-                        }
-                    }],
-                    xAxes: [{
-                    ticks:{
-                          fontColor: "white",
-                          fontSize: 14,
-                            beginAtZero: true,
-                        },
-                        scaleLabel: {
-                            // display: true,
-                            // labelString: 'Month of the Year'
-                        }
-                    }]
-                }
-            }
-        });
+              ],
+            },
+          },
+        },
 
-        new Chart(ctx1).Pie(pieOptions);
+        // Configuration options
+        options: {
+          layout: {
+            padding: 10,
+          },
+          legend: {
+            position: "bottom",
+          },
+          title: {
+            display: true,
+            text: "India",
+          },
+          scales: {
+            yAxes: [
+              {
+                ticks: {
+                  fontColor: "white",
+                  fontSize: 14,
+                  beginAtZero: true,
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: "No of People",
+                },
+              },
+            ],
+            xAxes: [
+              {
+                ticks: {
+                  fontColor: "white",
+                  fontSize: 14,
+                  beginAtZero: true,
+                },
+                scaleLabel: {
+                  // display: true,
+                  // labelString: 'Month of the Year'
+                },
+              },
+            ],
+          },
+        },
+      });
+
+      new Chart(ctx1).Pie(pieOptions);
     </script>
     <!-- ppie chart  -->
-
-
-</body>
-
+  </body>
 </html>
